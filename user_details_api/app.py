@@ -1,12 +1,11 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
 
-app = Flast(__name__)
+app = Flask(__name__)
 api = Api(app)
 
 
-users = 
-[
+users = [
 	{
 		"name": "Alice",
 		"age": 23,
@@ -70,9 +69,9 @@ class User(Resource):
 
 		for user in users:
 			if(name == user["name"]):
-				user["age"]: args["age"],
-				user["SIN"]: args["SIN"],
-				user["occupation"]: args["occupation"]
+				user["age"] = args["age"],
+				user["SIN"] = args["SIN"],
+				user["occupation"] = args["occupation"]
 				return user, 200
 
 		user = {
@@ -90,3 +89,6 @@ class User(Resource):
 		return "{} is deleted.".format(name), 200
 
 
+api.add_resource(User, "/user/<string:name>")
+
+app.run(debug=True)

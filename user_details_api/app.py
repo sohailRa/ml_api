@@ -62,6 +62,31 @@ class User(Resource):
 		return user, 201
 
 	def put(self, name):
-		pass
+		parser = reqparse.RequestParser()
+		parser.add_argument("age")
+		parser.add_argument("SIN")
+		parser.add_argument("occupation")
+		args = parser.parse_args
+
+		for user in users:
+			if(name == user["name"]):
+				user["age"]: args["age"],
+				user["SIN"]: args["SIN"],
+				user["occupation"]: args["occupation"]
+				return user, 200
+
+		user = {
+		"name": name,
+		"age": args["age"],
+		"SIN": args["SIN"],
+		"occupation": args["occupation"]
+		}
+		users.append(user)
+		return user, 201
+
 	def delete(self, name):
-		pass
+		global users
+		users = [user for user in suers if user["name"] != name]
+		return "{} is deleted.".format(name), 200
+
+

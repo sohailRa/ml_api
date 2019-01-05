@@ -1,10 +1,7 @@
 # Simple Linear Regression to predict employee salary based on experience
 
-import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 import pickle
-import requests
 import json
 
 # Importing the dataset
@@ -26,12 +23,13 @@ y_pred = regressor.predict(X_test)
 
 # Accuracy
 from sklearn.metrics import explained_variance_score
-metrics = explained_variance_score(y_test, y_pred)
-print(metrics)
+variance_score = explained_variance_score(y_test, y_pred)
+print("Explained Variance Score: ", variance_score)
 
 # Saving model to disk
 pickle.dump(regressor, open('model.pkl','wb'), protocol=2)
 
 # Loading model to compare the results
+exp = 1.8
 model = pickle.load( open('model.pkl','rb'))
-print(model.predict([[1.8]]))
+print("Salary for ", str(exp), " years of experience",model.predict([[exp]])[0])

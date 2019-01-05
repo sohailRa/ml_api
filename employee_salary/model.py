@@ -14,7 +14,7 @@ import requests
 import json
 
 # Importing the dataset
-dataset = pd.read_csv('Salary_Data.csv')
+dataset = pd.read_csv('data/Salary_Data.csv')
 X = dataset.iloc[:, :-1].values
 y = dataset.iloc[:, 1].values
 
@@ -29,6 +29,11 @@ regressor.fit(X_train, y_train)
 
 # Predicting the Test set results
 y_pred = regressor.predict(X_test)
+
+# Accuracy
+from sklearn.metrics import accuracy_score
+accuracy_score(y_test, y_pred)
+print(accuracy_score)
 
 # Saving model to disk
 pickle.dump(regressor, open('model.pkl','wb'))

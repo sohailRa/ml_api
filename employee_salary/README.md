@@ -12,3 +12,8 @@ server.py contains the flask API requirments
 
 # Request
 request.py is used to process POST request to server.
+
+# Run:
+step1: run model.py (only once)
+step2: run server.py
+step3: run request.py

@@ -34,7 +34,7 @@ users = [
 
 class User(Resource):
 
-	def get(self, name):
+	def get(self, name=None):
 		for user in users:
 			if(name == user['name']):
 				return user, 200
@@ -45,17 +45,17 @@ class User(Resource):
 		parser.add_argument("age")
 		parser.add_argument("SIN")
 		parser.add_argument("occupation")
-		args = parser.parse_args
+		args = parser.parse_args()
 
 		for user in users:
 			if(name == user["name"]):
 				return "User with name {} already exists".format(name), 400
 
 		user = {
-		"name": name,
-		"age": args["age"],
-		"SIN": args["SIN"],
-		"occupation": args["occupation"]
+			"name": name,
+			"age": args["age"],
+			"SIN": args["SIN"],
+			"occupation": args["occupation"]
 		}
 		users.append(user)
 		return user, 201
@@ -65,30 +65,41 @@ class User(Resource):
 		parser.add_argument("age")
 		parser.add_argument("SIN")
 		parser.add_argument("occupation")
-		args = parser.parse_args
+		args = parser.parse_args()
 
 		for user in users:
 			if(name == user["name"]):
-				user["age"] = args["age"],
-				user["SIN"] = args["SIN"],
-				user["occupation"] = args["occupation"]
+				if args["age"]:
+					user["age"] = args["age"]
+				if args["SIN"]:
+					user["SIN"] = args["SIN"]
+				if args["occupation"]:
+					user["occupation"] = args["occupation"]
 				return user, 200
 
 		user = {
-		"name": name,
-		"age": args["age"],
-		"SIN": args["SIN"],
-		"occupation": args["occupation"]
+			"name": name,
+			"age": args["age"],
+			"SIN": args["SIN"],
+			"occupation": args["occupation"]
 		}
 		users.append(user)
 		return user, 201
 
 	def delete(self, name):
 		global users
-		users = [user for user in suers if user["name"] != name]
+		users = [user for user in users if user["name"] != name]
 		return "{} is deleted.".format(name), 200
 
+class Users(Resource):
 
-api.add_resource(User, "/user/<string:name>")
+	def get(self):
+		return users
+
+
+
+
+api.add_resource(Users, '/users')
+api.add_resource(User, '/users/<string:name>')
 
 app.run(debug=True)

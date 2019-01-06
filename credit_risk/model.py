@@ -18,3 +18,27 @@ print ("accuracy is ", lr_clf.score(X,y)) #mult by 100% to get %accuracy
 
 # Saving model by picking
 pickle.dump(lr_clf, open('lib/models/model.pkl','wb'), protocol=2)
+
+
+# print("Testing Predict:\n\n")
+# v = X.iloc[[0]]
+# print(v)
+# print(type(v))
+
+# v_dict = v.to_dict('records')
+
+# req = pd.DataFrame.from_dict(v_dict)
+# print(req)
+# print(type(req))
+
+
+# prediction = lr_clf.predict(req)
+# pred_proba = lr_clf.predict_proba(req)
+
+# if prediction == 0:
+#     result = "Default Negative"
+# else:
+#     result = "Default Positive"
+    
+# output = {'prediction': result, 'confidence': pred_proba[0][0]}
+# print(output)

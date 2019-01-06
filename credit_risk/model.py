@@ -2,7 +2,7 @@ import pandas as pd
 import pickle
 from sklearn.linear_model import LogisticRegression
 
-TEST = True
+TEST = False
 
 #Loading Data
 trainDF = pd.read_csv('lib/data/cs-training.csv', index_col=0)

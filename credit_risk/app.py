@@ -1,8 +1,9 @@
-from flask import Flask
+from flask import Flask, request
 from flask_restful import reqparse, abort, Api, Resource
 import pickle
-import numpy as np
+import pandas as pd
 from sklearn.linear_model import LogisticRegression
+import csv
 
 app = Flask(__name__)
 api = Api(app)
@@ -11,7 +12,7 @@ api = Api(app)
 lr_clf = LogisticRegression() 
 
 #Loading trained/picked model
-with open("lib/model/model.pkl", 'rb') as f:
+with open("lib/models/model.pkl", 'rb') as f:
     lr_clf.clf = pickle.load(f)
 
 # argument parsing
@@ -20,25 +21,47 @@ parser.add_argument('request')
 
 
 class PredictCreditRisk(Resource):
-    
-    def get(self):
-        # parsing the request
-        args = parser.parse_args()
-        req = args['request']
+	@app.route('/', methods=["GET"])
+	def get():
+
+		# parser = reqparse.RequestParser()
+		# # parser.add_argument("query")
+		# parser.add_argument('csv_file', location='files')
+		# args = parser.parse_args()
+		# file_name = args["csv_file"]
+		# with open(file_name, "r") as f:
+		# 	fc = f.read()
+		# 	return fc
 		
-		req = json.loads(req)
-		req = pd.DataFrame.from_json(req)
+		# out = pd.read_csv(args["csv_file"], sep=",")
 
-		prediction = lr_clf.predict(x)
-		pred_proba = lr_clf.predict_proba(x)
+		#----------------------------------------------
+		file = request.files['csv_file']	
+		file_contents = file.stream.read().decode("utf-8")
+		csv_input = csv.reader(file_contents)
+		# print(file_contents)
+		print(type(file_contents))
+		print(csv_input)
+		# for row in csv_input:
+		#     print(row)
 
-		if prediction == 0:
-		    result = "Default Negative"
-		else:
-		    result = "Default Positive"
-		    
-		output = {'prediction': result, 'confidence': pred_proba[0][0]}
-		return output
+		from pandas.compat import StringIO
+		df = pd.read_csv(StringIO(file_contents), index_col=0)
+		print(df)
+		req = file_contents
+		return req
+		#----------------------------------------------
+
+		# prediction = lr_clf.predict(req)
+		# pred_proba = lr_clf.predict_proba(req)
+
+		# if prediction == 0:
+		# 	result = "Default Negative"
+		# else:
+		# 	result = "Default Positive"
+
+		# output = {'prediction': result, 'confidence': pred_proba[0]}
+		# return output
 
 
 # Routeing the URL to the resource

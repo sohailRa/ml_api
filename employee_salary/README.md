@@ -1,19 +1,20 @@
 # Flask Employee Salary Predictor
 
 A simple project to predict employee salary based on experience.
-The purose of this project is to create a simple flask api that loads 
-picled model
+The purpose of this project is to create a simple flask API that loads 
+pickled model
 
-# Model
+#### Model
 model.py a simple logistic regression model to predict employee salary
 
-# Server
-server.py contains the flask API requirments
+#### Server
+server.py contains the Flask API requirements
 
-# Request
+#### Request
 request.py is used to process POST request to server.
 
-# Run:
-step1: run model.py (only once)
-step2: run server.py
-step3: run request.py
+
+#### Usage
+1. run model.py (only once)
+2. run server.py
+3. run request.py

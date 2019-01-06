@@ -97,8 +97,6 @@ class Users(Resource):
 		return users
 
 
-
-
 api.add_resource(Users, '/users')
 api.add_resource(User, '/users/<string:name>')
 

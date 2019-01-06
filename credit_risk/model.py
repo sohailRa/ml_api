@@ -2,6 +2,8 @@ import pandas as pd
 import pickle
 from sklearn.linear_model import LogisticRegression
 
+TEST = True
+
 #Loading Data
 trainDF = pd.read_csv('lib/data/cs-training.csv', index_col=0)
 trainDF = trainDF.dropna()
@@ -19,42 +21,26 @@ print ("accuracy is ", lr_clf.score(X,y)) #mult by 100% to get %accuracy
 # Saving model by picking
 pickle.dump(lr_clf, open('lib/models/model.pkl','wb'), protocol=2)
 
+if TEST:
+	#Test Model
+	req = pd.read_csv('lib/data/req_data.csv', index_col=0)
+	req = req.drop(['SeriousDlqin2yrs'], axis=1)
+	req = req.dropna()
+	bb = req.iloc[0:1] 
 
-print("Testing Predict:\n\n")
-aa = X.iloc[[15]]
-# print(v.to_dict(orient='records'))
+	data = []
+	data.append(bb)
 
-# v_dict = v.to_dict('records')
-# print("-----------------------------------------------\n")
-# req = pd.DataFrame.from_dict(v_dict)
-# print(req.to_dict(orient='records'))
+	for dat in data:
+		prediction = lr_clf.predict(dat)
+		pred_proba = lr_clf.predict_proba(dat)
 
-bb = [{'NumberOfTime60-89DaysPastDueNotWorse': 0.0,
-'NumberOfTime30-59DaysPastDueNotWorse': 2.0,
-'NumberRealEstateLoansOrLines': 6.0,
-'DebtRatio': 0.8029821290000001,
-'NumberOfOpenCreditLinesAndLoans': 13.0,
-'age': 45.0,
-'NumberOfTimes90DaysLate': 0.0,
-'NumberOfDependents': 2.0,
-'MonthlyIncome': 9120.0,
-'RevolvingUtilizationOfUnsecuredLines': 0.7661266090000001}]
-
-bb = pd.DataFrame.from_dict(bb)
-data = []
-data.append(bb)
-data.append(aa)
-
-for dat in data:
-	prediction = lr_clf.predict(dat)
-	pred_proba = lr_clf.predict_proba(dat)
-
-	if prediction == 0:
-	    result = "Default Negative"
-	else:
-	    result = "Default Positive"
-	    
-	output = {'prediction': result, 'confidence': pred_proba[0]}
-	print(output)
-	print("-----------------------------------------------\n\n")
+		if prediction == 0:
+		    result = "Default Negative"
+		else:
+		    result = "Default Positive"
+		    
+		output = {'prediction': result, 'confidence': pred_proba[0]}
+		print(output)
+		print("--------------------------------------------------------------------")
 
